@@ -1,11 +1,10 @@
 package com.example.data.model;
 
-import java.util.Objects;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Pokemon {
@@ -19,6 +18,9 @@ public class Pokemon {
 	private String tipo1;
 	
 	private String tipo2;
+	
+//	@ManyToOne
+//	private Teamversus teamversus;
 	
 	public Pokemon() {}
 
@@ -60,27 +62,18 @@ public class Pokemon {
 		this.tipo2 = tipo2;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, nombre, tipo1, tipo2);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pokemon other = (Pokemon) obj;
-		return id == other.id && Objects.equals(nombre, other.nombre) && Objects.equals(tipo1, other.tipo1)
-				&& Objects.equals(tipo2, other.tipo2);
-	}
+//	public Teamversus getTeamversus() {
+//		return teamversus;
+//	}
+//
+//	public void setTeamversus(Teamversus teamversus) {
+//		this.teamversus = teamversus;
+//	}
 
 	@Override
 	public String toString() {
-		return "Pokemon [id=" + id + ", nombre=" + nombre + ", tipo1=" + tipo1 + ", tipo2=" + tipo2 + "]";
+		return "Pokemon [id=" + id + ", nombre=" + nombre + ", tipo1=" + tipo1 + ", tipo2=" + tipo2 + /*", teamversus="
+				+ teamversus.toString() +*/ "]";
 	}
 	
 }
