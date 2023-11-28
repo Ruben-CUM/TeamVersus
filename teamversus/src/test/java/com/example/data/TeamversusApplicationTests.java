@@ -31,9 +31,9 @@ class TeamversusApplicationTests {
 		testInicial();
 		System.out.println();
 	}
-	
+
 	public void testInicial() {
-		
+
 		System.out.println("Crear objeto principal Teamversus");
 
 		Teamversus teamversus = new Teamversus();
@@ -71,7 +71,7 @@ class TeamversusApplicationTests {
 		Pokemon zapdos = new Pokemon("Zapdos", "ELÉCTRICO", "VOLADOR");
 		Pokemon moltres = new Pokemon("Moltres", "FUEGO", "VOLADOR");
 		Pokemon dragonite = new Pokemon("Dragonite", "DRAGÓN", "VOLADOR");
-		
+
 //		venusaur.setTeamversus(teamversus);
 //		charizard.setTeamversus(teamversus);
 //		blastoise.setTeamversus(teamversus);
@@ -173,9 +173,9 @@ class TeamversusApplicationTests {
 
 		listaPokemon = (List<Pokemon>) pokemonRepository.findAll();
 		teamversus.setListaPokemon(listaPokemon);
-		
+
 		System.out.println(teamversus.toString());
-		
+
 		Iterator<Pokemon> iterator = teamversus.getListaPokemon().iterator();
 		while (iterator.hasNext()) {
 			Pokemon pokemon = (Pokemon) iterator.next();
@@ -183,85 +183,102 @@ class TeamversusApplicationTests {
 		}
 
 		System.out.println("------------------------------");
-		
+
 		System.out.println("Buscar pokemon por id y por nombre");
-		
+
 		Pokemon buscarMewtwoId = pokemonRepository.findPokemonById(24);
 		System.out.println(buscarMewtwoId.toString());
 		Pokemon buscarMewtwoNombre = pokemonRepository.findPokemonByNombre("Mewtwo");
 		System.out.println(buscarMewtwoNombre.toString());
-		
+
 		System.out.println("------------------------------");
-		
+
 		System.out.println("Dos equipos aleatorio de 6 pokemon");
-		
-		List<Pokemon> equipoAleatorio = new ArrayList<>();
-        Random random = new Random();
-        List<Integer> indicesUsados = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
-            int indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
-            while (indicesUsados.contains(indiceAleatorio)) {
-            	indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
-            }
-            indicesUsados.add(indiceAleatorio);
-            equipoAleatorio.add(teamversus.getListaPokemon().get(indiceAleatorio));
-        }
-        
-        System.out.println("Equipo1");
-        for (Pokemon pokemon : equipoAleatorio) {
-            System.out.println(pokemon.toString());
-        }
+		List<Pokemon> equipoAleatorio = new ArrayList<>();
+		Random random = new Random();
+		List<Integer> indicesUsados = new ArrayList<>();
+
+		for (int i = 0; i < 6; i++) {
+			int indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
+			while (indicesUsados.contains(indiceAleatorio)) {
+				indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
+			}
+			indicesUsados.add(indiceAleatorio);
+			equipoAleatorio.add(teamversus.getListaPokemon().get(indiceAleatorio));
+		}
+
+		System.out.println("Equipo1");
+		for (Pokemon pokemon : equipoAleatorio) {
+			System.out.println(pokemon.toString());
+		}
+
+		System.out.println("------------------------------");
+
+		List<Pokemon> equipoAleatorio2 = new ArrayList<>();
+		random = new Random();
+		indicesUsados = new ArrayList<>();
+
+		for (int i = 0; i < 6; i++) {
+			int indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
+			while (indicesUsados.contains(indiceAleatorio)) {
+				indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
+			}
+			indicesUsados.add(indiceAleatorio);
+			equipoAleatorio2.add(pokemonRepository.findPokemonById(indiceAleatorio + 1));
+		}
+
+		System.out.println("Equipo 2");
+		for (Pokemon pokemon : equipoAleatorio2) {
+			System.out.println(pokemon.toString());
+		}
+
+		System.out.println("Primera versión de enfrentamiento entre equipos");
+
+		for (int i = 0; i < equipoAleatorio.size(); i++) {
+			System.out.println("Enfrentamiento " + (i + 1) + ":");
+			Pokemon pokemonPropio = equipoAleatorio.get(i);
+			Pokemon pokemonRival = equipoAleatorio2.get(i);
+			System.out.println(pokemonPropio.toString());
+			System.out.println("------VS.------");
+			System.out.println(pokemonRival.toString());
+			if (pokemonPropio.getTipo2() == null) {
+				if (pokemonRival.getTipo2() == null) {
+					Tabla.mostrarEficaciaTipo(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()),
+							Tabla.encontrarIndiceTipo(pokemonRival.getTipo1()));
+				} else {
+					Tabla.mostrarEficaciaTipo(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()),
+							Tabla.encontrarIndiceTipo(pokemonRival.getTipo1()),
+							Tabla.encontrarIndiceTipo(pokemonRival.getTipo2()));
+				}
+			} else {
+				if (pokemonRival.getTipo2() == null) {
+					Tabla.mostrarEficaciaTipos(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()),
+							Tabla.encontrarIndiceTipo(pokemonPropio.getTipo2()),
+							Tabla.encontrarIndiceTipo(pokemonRival.getTipo1()));
+				} else {
+					Tabla.mostrarEficaciaTipo(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()),
+							Tabla.encontrarIndiceTipo(pokemonPropio.getTipo2()),
+							Tabla.encontrarIndiceTipo(pokemonPropio.getTipo2()),
+							Tabla.encontrarIndiceTipo(pokemonRival.getTipo2()));
+				}
+			}
+		}
+
+		System.out.println("------------------------------");
+
+		teamversusRepository.findAll();
 		
 		System.out.println("------------------------------");
-		
-		List<Pokemon> equipoAleatorio2 = new ArrayList<>();
-        random = new Random();
-        indicesUsados = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
-            int indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
-            while (indicesUsados.contains(indiceAleatorio)) {
-            	indiceAleatorio = random.nextInt(teamversus.getListaPokemon().size());
-            }
-            indicesUsados.add(indiceAleatorio);
-            equipoAleatorio2.add(pokemonRepository.findPokemonById(indiceAleatorio+1));
-        }
-        
-        System.out.println("Equipo 2");
-        for (Pokemon pokemon : equipoAleatorio2) {
-            System.out.println(pokemon.toString());
-        }
-        
-        System.out.println("Primera versión de enfrentamiento entre equipos");
-        
-        for (int i = 0; i < equipoAleatorio.size(); i++) {
-        	System.out.println("Enfrentamiento " + (i+1) + ":");
-        	Pokemon pokemonPropio = equipoAleatorio.get(i);
-        	Pokemon pokemonRival = equipoAleatorio2.get(i);
-        	System.out.println(pokemonPropio.toString());
-        	System.out.println("------VS.------");
-        	System.out.println(pokemonRival.toString());
-        	if (pokemonPropio.getTipo2() == null) {
-        		if (pokemonRival.getTipo2() == null) {
-        			Tabla.mostrarEficaciaTipo(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()), Tabla.encontrarIndiceTipo(pokemonRival.getTipo1()));
-        		} else {
-        			Tabla.mostrarEficaciaTipo(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()), Tabla.encontrarIndiceTipo(pokemonRival.getTipo1()), Tabla.encontrarIndiceTipo(pokemonRival.getTipo2()));
-        		}
-        	} else {
-        		if (pokemonRival.getTipo2() == null) {
-        			Tabla.mostrarEficaciaTipos(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()), Tabla.encontrarIndiceTipo(pokemonPropio.getTipo2()), Tabla.encontrarIndiceTipo(pokemonRival.getTipo1()));
-        		} else {
-        			Tabla.mostrarEficaciaTipo(Tabla.encontrarIndiceTipo(pokemonPropio.getTipo1()), Tabla.encontrarIndiceTipo(pokemonPropio.getTipo2()), Tabla.encontrarIndiceTipo(pokemonPropio.getTipo2()),Tabla.encontrarIndiceTipo(pokemonRival.getTipo2()));
-        		}
-        	}
-        }
-        
-        System.out.println("------------------------------");
-        
-        teamversusRepository.findAll();
+		System.out.println("Buscar pokemon por id y por nombre");
+
+		buscarMewtwoId = teamversusRepository.findPokemonById(24);
+		System.out.println(buscarMewtwoId.toString());
+		buscarMewtwoNombre = teamversusRepository.findPokemonByNombre("Mewtwo");
+		System.out.println(buscarMewtwoNombre.toString());
+
+		System.out.println("------------------------------");
 	}
-	
-	
 
 }
