@@ -164,7 +164,9 @@ class TeamversusApplicationTests {
 		listaPokemon.add(moltres);
 		listaPokemon.add(dragonite);
 		teamversus.setListaPokemon(listaPokemon);
-
+		
+		
+		teamversus = teamversusRepository.save(teamversus);
 		System.out.println("------------------------------");
 
 		System.out.println("Recuperar la lista de Pokemon y mostrarla");
