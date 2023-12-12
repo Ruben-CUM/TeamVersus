@@ -1,6 +1,7 @@
 package com.example.logic;
 
 public class Tabla {
+	//https://play.pokemonshowdown.com/sprites/ani/
     
    /*Tipos actuales de pokemon*/
    public static String[] tiposPokemon = {
