@@ -12,7 +12,6 @@ public class IndexController {
 		return "combate";
 	}
 
-	@GetMapping("/")
 	public String index() {
 		return "index";
 	}
