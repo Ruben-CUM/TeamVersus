@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="/images/pokeball_teamversus.png">
+	<title>Tabla de Tipos</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+	<style>
+		body {
+			font-family: 'Candara', sans-serif;
+			color: white;
+			margin: 0;
+			padding: 0;
+			background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+		}
+
+		h2 {
+			font-size: 50px;
+			text-align: center;
+		}
+
+		table {
+			border-collapse: collapse;
+			margin-bottom: 40px;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid white;
+		}
+
+		th,
+		td {
+			text-align: center;
+			margin: 0;
+			padding: 0;
+		}
+
+		p {
+			margin: 0;
+		}
+
+		.pokemon-types {
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.type-container {
+			width: 70px;
+			display: inline-block;
+		}
+
+		.number-container {
+			padding-left: 7px;
+			padding-right: 7px;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			display: inline-block;
+		}
+
+		.btn-combate-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 55px;
+		}
+
+		.btn-combate {
+			padding: 15px 30px;
+			background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+			font-family: 'Candara', sans-serif;
+			font-size: 30px;
+		}
+	</style>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var pokemonTypes = document.querySelectorAll('.pokemon-types');
+
+			pokemonTypes.forEach(function (element) {
+				var tipo = element.textContent;
+				var color = getColorByType(tipo.toLowerCase());
+
+				// Limpiar el contenido existente
+				element.innerHTML = '';
+
+				// Crear un nuevo elemento span para el tipo
+				var tipoElement = document.createElement('span');
+				tipoElement.textContent = tipo;
+				tipoElement.style.backgroundColor = color;
+				tipoElement.style.borderRadius = '15px';
+				tipoElement.style.padding = '5px';
+				tipoElement.style.margin = '5px';
+				tipoElement.classList.add('type-container');
+
+				// Agregar el nuevo elemento span al contenedor
+				element.appendChild(tipoElement);
+			});
+
+			function getColorByType(tipo) {
+				switch (tipo) {
+					case 'planta':
+						return '#78C850';
+					case 'fuego':
+						return '#F08030';
+					case 'agua':
+						return '#6890F0';
+					case 'bicho':
+						return '#A8B820';
+					case 'veneno':
+						return '#A040A0';
+					case 'normal':
+						return '#A8A878';
+					case 'volador':
+						return '#A890F0';
+					case 'eléctrico':
+						return '#F8D030';
+					case 'hada':
+						return '#EE99AC';
+					case 'lucha':
+						return '#C03028';
+					case 'roca':
+						return '#B8A038';
+					case 'psíquico':
+						return '#F85888';
+					case 'acero':
+						return '#B8B8D0';
+					case 'tierra':
+						return '#E0C068';
+					case 'hielo':
+						return '#98D8D8';
+					case 'fantasma':
+						return '#705898';
+					case 'dragón':
+						return '#7038F8';
+					case 'siniestro':
+						return '#705848';
+					default:
+						return 'transparent';
+				}
+			}
+		});
+
+		document.addEventListener("DOMContentLoaded", function () {
+			var numeros = document.querySelectorAll('.valor');
+
+			numeros.forEach(function (element) {
+				var numero = element.textContent;
+				var color = getNumberColor(numero.toLowerCase());
+
+				// Limpiar el contenido existente
+				element.innerHTML = '';
+
+				// Crear un nuevo elemento span para el tipo
+				var numeroElement = document.createElement('span');
+				numeroElement.textContent = numero;
+				numeroElement.style.backgroundColor = color;
+				numeroElement.style.borderRadius = '100px';
+				numeroElement.classList.add('number-container');
+
+				// Agregar el nuevo elemento span al contenedor
+				element.appendChild(numeroElement);
+			});
+
+			function getNumberColor(number) {
+				switch (number) {
+					case '0.0':
+						return '#404040';
+					case '0.5':
+						return '#f2d071';
+					case '1.0':
+						return 'transparent';
+					case '2.0':
+						return '#69b24b';
+					default:
+						return 'transparent';
+				}
+			}
+		});
+	</script>
+</head>
+
+<body>
+
+	<h2>Tabla de Tipos</h2>
+
+	<table>
+		<tr>
+			<th></th>
+			<th th:each="tipoColumna : ${tabla.tiposPokemon}">
+				<p class="pokemon-types tipo-${tipoColumna.toLowerCase()}" th:text="${tipoColumna}"></p>
+			</th>
+		</tr>
+
+		<tr th:each="tipoFila, rowStat : ${tabla.tiposPokemon}">
+			<th>
+				<p class="pokemon-types tipo-${tipoFila.toLowerCase()}" th:text="${tipoFila}"></p>
+			</th>
+
+			<td th:each="tipoColumna, colStat : ${tabla.tiposPokemon}">
+				<p class="valor" th:text="${tabla.efectividadesPokemon[rowStat.index][colStat.index]}"></p>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-combate-container">
+		<a href="/" class="btn btn-primary btn-combate">Vover a Inicio</a>
+	</div>
+
+</body>
+
+</html>

@@ -1,17 +1,73 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../templates/CSS/Indexcss.css">
-    <title>TeamVersus</title>
-</head>
-<body>
-    <div id="container">
-        <img id="icon" src="images/logoTV.png" alt="Icono">
-        <button id="startButton">Iniciar</button>
-    </div>
+<!DOCTYPE HTML>
+<html>
 
-    <script src="/src/main/java/controller/Index.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="/images/pokeball_teamversus.png">
+	<title>TeamVersus</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			background-image: url('/images/index.png');
+			background-size: cover;
+			background-position: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+		}
+
+		.contenido {
+			text-align: center;
+			background-color: rgba(30, 12, 69, 0.50);
+			padding: 20px;
+			border-radius: 15px;
+		}
+
+		.contenido h1 {
+			font-family: 'Candara', sans-serif;
+			font-size: 50px;
+		}
+
+		.contenido p {
+			font-family: 'Candara', sans-serif;
+			font-size: 22px;
+		}
+
+		.logo {
+			max-width: 100%;
+			height: auto;
+			margin-bottom: 20px;
+		}
+
+		.btn {
+			padding: 15px 30px;
+			background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+			font-family: 'Candara', sans-serif;
+			font-size: 35px;
+			width: 350px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="contenido">
+		<img src="/images/logo_teamversus_v2.png" alt="Logo de Teamversus" class="logo">
+		<h1>¡Bienvenido a Teamversus!</h1>
+		<p>¡Crea tu equipo Pokémon ideal y ponlo a prueba!</p>
+		<p><a href="/tablaTipos" class="btn btn-primary">Tabla de Tipos</a></p>
+		<p><a href="/listaPokemon" class="btn btn-primary">Crear Equipo</a></p>
+		<p><a href="/listaPokemon" th:if="${#lists.size(combates) != 0}" class="btn btn-primary">Lista de Combates</a></p>
+	</div>
+
+	<!-- Agrega los enlaces a Bootstrap y jQuery antes de cerrar el cuerpo del documento -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -183,42 +183,35 @@
 <body>
 	<div class="combate">
 		<div id="interfaz-combate">
-			<h1>¡Combate Pokémon!
-				<form th:action="@{/procesarTurno/{indiceJugador}(indiceJugador=0)}" method="post">>
-						<input type="hidden" name="indiceRival" th:value="0" />
-						<button type="submit" class="btn btn-success">
-							siguiente
-						</button>
-					</form>
-			</h1>
+			<h1>¡Combate Pokémon!</h1>
 			<!-- Tu Pokémon -->
 			<th:block th:if="${combate.equipoJugador != null and not #lists.isEmpty(combate.equipoJugador)}">
 				<div id="nombre-pokemon-propio">
-					<h2 th:text="${combate.equipoJugador[0].nombre}"></h2>
-					<p th:if="${combate.equipoJugador[0].tipo2 != null}"
-						class="pokemon-types tipo-${combate.equipoJugador[0].tipo1.toLowerCase()} tipo-${combate.equipoJugador[0].tipo2.toLowerCase()}"
-						th:text="${combate.equipoJugador[0].tipo1 + '/' + combate.equipoJugador[0].tipo2}"></p>
-					<p th:if="${combate.equipoJugador[0].tipo2 == null}"
-						class="pokemon-types tipo-${combate.equipoJugador[0].tipo1.toLowerCase()}"
-						th:text="${combate.equipoJugador[0].tipo1}"></p>
+					<h2 th:text="${combate.equipoJugador[indices[0]].nombre}"></h2>
+					<p th:if="${combate.equipoJugador[indices[0]].tipo2 != null}"
+						class="pokemon-types tipo-${combate.equipoJugador[indices[0]].tipo1.toLowerCase()} tipo-${combate.equipoJugador[indices[0]].tipo2.toLowerCase()}"
+						th:text="${combate.equipoJugador[indices[0]].tipo1 + '/' + combate.equipoJugador[indices[0]].tipo2}"></p>
+					<p th:if="${combate.equipoJugador[indices[0]].tipo2 == null}"
+						class="pokemon-types tipo-${combate.equipoJugador[indices[0]].tipo1.toLowerCase()}"
+						th:text="${combate.equipoJugador[indices[0]].tipo1}"></p>
 				</div>
 				<div class="pokemon-propio">
-					<img th:src="${combate.equipoJugador[0].spriteBack}">
+					<img th:src="${combate.equipoJugador[indices[0]].spriteBack}">
 				</div>
 			</th:block>
 
 			<!-- Rival Pokémon -->
 			<div class="pokemon-rival">
-				<img th:src="${combate.equipoRival[0].spriteFront}">
+				<img th:src="${combate.equipoRival[indices[1]].spriteFront}">
 			</div>
 			<div id="nombre-pokemon-rival">
-				<h2 th:text="${combate.equipoRival[0].nombre}"></h2>
-				<p th:if="${combate.equipoRival[0].tipo2 != null}"
-					class="pokemon-types tipo-${combate.equipoRival[0].tipo1.toLowerCase()} tipo-${combate.equipoRival[0].tipo2.toLowerCase()}"
-					th:text="${combate.equipoRival[0].tipo1 + '/' + combate.equipoRival[0].tipo2}"></p>
-				<p th:if="${combate.equipoRival[0].tipo2 == null}"
-					class="pokemon-types tipo-${combate.equipoRival[0].tipo1.toLowerCase()}"
-					th:text="${combate.equipoRival[0].tipo1}"></p>
+				<h2 th:text="${combate.equipoRival[indices[1]].nombre}"></h2>
+				<p th:if="${combate.equipoRival[indices[1]].tipo2 != null}"
+					class="pokemon-types tipo-${combate.equipoRival[indices[1]].tipo1.toLowerCase()} tipo-${combate.equipoRival[indices[1]].tipo2.toLowerCase()}"
+					th:text="${combate.equipoRival[indices[1]].tipo1 + '/' + combate.equipoRival[indices[1]].tipo2}"></p>
+				<p th:if="${combate.equipoRival[indices[1]].tipo2 == null}"
+					class="pokemon-types tipo-${combate.equipoRival[indices[1]].tipo1.toLowerCase()}"
+					th:text="${combate.equipoRival[indices[1]].tipo1}"></p>
 			</div>
 		</div>
 	</div>
