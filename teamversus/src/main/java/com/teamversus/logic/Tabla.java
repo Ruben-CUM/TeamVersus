@@ -189,8 +189,9 @@ public class Tabla {
 		System.out.println(efectividad1 + "   " + efectividad2 + "   " + efectividad);
 		System.out.println(mostrarEficacia(efectividad));
 	}
-	
-	public static double obtenerEficaciaTipo(int tipo1Atacante, int tipo2Atacante, int tipo1Oponente, int tipo2Oponente) {
+
+	public static double obtenerEficaciaTipo(int tipo1Atacante, int tipo2Atacante, int tipo1Oponente,
+			int tipo2Oponente) {
 		// multiplico las efectivadades
 		double efectividad1 = Tabla.efectividadesPokemon[tipo1Atacante][tipo1Oponente]
 				* Tabla.efectividadesPokemon[tipo1Atacante][tipo2Oponente];

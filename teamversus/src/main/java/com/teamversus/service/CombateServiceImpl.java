@@ -7,6 +7,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.teamversus.logic.DatosCombate;
 import com.teamversus.logic.Tabla;
 import com.teamversus.model.Combate;
 import com.teamversus.model.Pokemon;
@@ -28,18 +29,18 @@ public class CombateServiceImpl implements CombateService {
 
 	@Override
 	public void createCombate() {
+		if (findUltimoCombate() != null) {
+			combateRepository.deleteById(findUltimoCombate().getId());
+		}
 		Combate combate = new Combate();
-//		if (combateRepository.findById(combate.getId()).isPresent()) {
-//			combateRepository.deleteEquipoJugador(combate.getId());
-//			combateRepository.deleteEquipoRival(combate.getId());
-//			combate = combateRepository.save(combate);
-//		}
-
 		Teamversus teamversus = teamversusRepository.findById(1);
+		combate.setTeamversus(teamversus);
+		combate = combateRepository.save(combate);
+
+		combate = findUltimoCombate();
 		ArrayList<Pokemon> equipoJugador = (ArrayList<Pokemon>) teamversusRepository.findEquipo();
 		ArrayList<Pokemon> equipoRival = createEquipoRival(teamversus);
 
-		combate.setTeamversus(teamversus);
 		combate.setEquipoJugador(equipoJugador);
 		combate.setEquipoRival(equipoRival);
 		combate = combateRepository.save(combate);
@@ -82,51 +83,99 @@ public class CombateServiceImpl implements CombateService {
 	}
 
 	@Override
-	public int[] procesarTurno(int indiceJugador, int indiceRival) {
-		int[] indices = {-1, -1};
+	public DatosCombate procesarTurno(int indiceJugador, int indiceRival) {
+		int[] indices = { -1, -1 };
 		Combate combate = findUltimoCombate();
 		ArrayList<Pokemon> equipoJugador = (ArrayList<Pokemon>) combateRepository
 				.findEquipoJugadorByCombateId(combate.getId());
 		ArrayList<Pokemon> equipoRival = (ArrayList<Pokemon>) combateRepository
 				.findEquipoRivalByCombateId(combate.getId());
-		System.out.println(indices[0]+ " "+indices[1]);
-		if (indiceJugador < 5 && indiceRival < 5) {
+		double efectividadJugador = -1.0;
+		double efectividadRival = -1.0;
+		Pokemon ganador = new Pokemon();
+
+		if (indiceJugador <= 5 && indiceRival <= 5) {
 			Pokemon pokemonJugador = equipoJugador.get(indiceJugador);
 			Pokemon pokemonRival = equipoRival.get(indiceRival);
-			double efectividadJugador = obtenerEfectividad(pokemonJugador, pokemonRival);
-			double efectividadRival = obtenerEfectividad(pokemonRival, pokemonJugador);
-			
+			efectividadJugador = obtenerEfectividad(pokemonJugador, pokemonRival);
+			efectividadRival = obtenerEfectividad(pokemonRival, pokemonJugador);
+
 			if (efectividadJugador > efectividadRival) {
+				ganador = pokemonJugador;
 				indices[0] = indiceJugador;
-				indices[1] = indiceRival+1;
+				indices[1] = indiceRival + 1;
 			} else if (efectividadJugador < efectividadRival) {
-				indices[0] = indiceJugador+1;
+				ganador = pokemonRival;
+				indices[0] = indiceJugador + 1;
 				indices[1] = indiceRival;
 			} else {
 				Random random = new Random();
 				int numeroAleatorio = random.nextInt(2);
 				if (numeroAleatorio == 0) {
+					ganador = pokemonJugador;
 					indices[0] = indiceJugador;
-					indices[1] = indiceRival+1;
+					indices[1] = indiceRival + 1;
 				} else {
-					indices[0] = indiceJugador+1;
+					ganador = pokemonRival;
+					indices[0] = indiceJugador + 1;
 					indices[1] = indiceRival;
 				}
 			}
-		} if (indiceJugador == 5) {
-			indices[0] = -1;
-			indices[1] = 10;
-		} else if (indiceRival == 5) {
-			indices[0] = -1;
-			indices[1] = 10;
 		}
 
-		System.out.println(indices[0]+ " "+indices[1]);
-		
-		return indices;
+		DatosCombate datosCombate = new DatosCombate(indices, efectividadJugador, efectividadRival, ganador);
+
+		if (indiceJugador > 5 || indiceRival > 5 || indices[0] == -1 || indices[1] == -1 || indices[0] == 6
+				|| indices[1] == 6) {
+			datosCombate.setFin(true);
+		}
+
+		return datosCombate;
 	}
-	
-	public double obtenerEfectividad (Pokemon pokemonJugador, Pokemon pokemonRival) {
+
+	@Override
+	public DatosCombate recalcularEfectividad(DatosCombate datosCombate) {
+		Combate combate = findUltimoCombate();
+		ArrayList<Pokemon> equipoJugador = (ArrayList<Pokemon>) combateRepository
+				.findEquipoJugadorByCombateId(combate.getId());
+		ArrayList<Pokemon> equipoRival = (ArrayList<Pokemon>) combateRepository
+				.findEquipoRivalByCombateId(combate.getId());
+		Pokemon pokemonJugador = equipoJugador.get(datosCombate.getIndices()[0]);
+		Pokemon pokemonRival = equipoRival.get(datosCombate.getIndices()[1]);
+		double efectividadJugador = obtenerEfectividad(pokemonJugador, pokemonRival);
+		double efectividadRival = obtenerEfectividad(pokemonRival, pokemonJugador);
+		datosCombate.setEficaciaJugador(efectividadJugador);
+		datosCombate.setEficaciaRival(efectividadRival);
+
+		if (efectividadJugador > efectividadRival) {
+			datosCombate.setGanador(pokemonJugador);
+		} else if (efectividadJugador < efectividadRival) {
+			datosCombate.setGanador(pokemonRival);
+		} else {
+			Random random = new Random();
+			int numeroAleatorio = random.nextInt(2);
+			if (numeroAleatorio == 0) {
+				datosCombate.setGanador(pokemonJugador);
+			} else {
+				datosCombate.setGanador(pokemonRival);
+			}
+		}
+
+		return datosCombate;
+	}
+
+	@Override
+	public DatosCombate establecerGanador(DatosCombate datosCombate) {
+		datosCombate.setFin(true);
+		if (datosCombate.getIndices()[0] > 5) {
+			datosCombate.setEquipoGanador(1);
+		} else if (datosCombate.getIndices()[1] > 5) {
+			datosCombate.setEquipoGanador(0);
+		}
+		return datosCombate;
+	}
+
+	public double obtenerEfectividad(Pokemon pokemonJugador, Pokemon pokemonRival) {
 		double efectividad = -1.0;
 		if (pokemonJugador.getTipo2() == null) {
 			if (pokemonRival.getTipo2() == null) {
@@ -139,8 +188,7 @@ public class CombateServiceImpl implements CombateService {
 			}
 		} else {
 			if (pokemonRival.getTipo2() == null) {
-				efectividad = Tabla.obtenerEficaciaTipos(
-						Tabla.encontrarIndiceTipo(pokemonJugador.getTipo1()),
+				efectividad = Tabla.obtenerEficaciaTipos(Tabla.encontrarIndiceTipo(pokemonJugador.getTipo1()),
 						Tabla.encontrarIndiceTipo(pokemonJugador.getTipo2()),
 						Tabla.encontrarIndiceTipo(pokemonRival.getTipo1()));
 			} else {

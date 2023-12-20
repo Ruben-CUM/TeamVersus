@@ -1,0 +1,104 @@
+body,
+html {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.combate {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background-image: url('/images/fondo.png');
+	background-size: cover;
+	background-position: center;
+}
+
+.informacion {
+	background-color: rgb(30, 12, 69, 0.7);
+	color: white;
+	font-size: 16px;
+	text-align: center;
+	padding: 5px;
+	border-radius: 20px;
+	position: absolute;
+	top: 0%;
+	left: 50%;
+	transform: translate(-50%, -0%);
+	margin-top: 5px;
+	width: 1100px;
+}
+
+.combate h2 {
+	background-color: rgba(64, 0, 128, 0.5);
+	color: white;
+	padding: 10px;
+	border-radius: 5px 5px 5px 30px;
+}
+
+.pokemon-propio {
+	position: absolute;
+	top: 90%;
+	left: 20%;
+	transform: translate(-20%, -90%);
+	z-index: 1;
+}
+
+.pokemon-rival {
+	position: absolute;
+	top: 60%;
+	left: 60%;
+	transform: translate(-60%, -60%);
+}
+
+.pokemon-propio img {
+	width: 300%;
+}
+
+.pokemon-rival img {
+	width: 220%;
+}
+
+#nombre-pokemon-propio {
+	width: 250px;
+	position: absolute;
+	top: 55%;
+	left: 16%;
+	transform: translate(-16%, -55%);
+	text-align: center;
+	z-index: 2;
+}
+
+#nombre-pokemon-rival {
+	width: 250px;
+	position: absolute;
+	top: 40%;
+	left: 83%;
+	transform: translate(-83%, -40%);
+	text-align: center;
+}
+
+.pokemon-types {
+	font-weight: bold;
+}
+
+.type-container {
+	width: 100px;
+	display: inline-block;
+}
+
+.btn {
+	background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+	color: white;
+	width: 30px;
+	height: 30px;
+	margin: 0;
+	padding: 0;
+}
+
+.pokeball {
+	width: 25px;
+	height: 25px;
+}

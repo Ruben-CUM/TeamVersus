@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" type="image/x-icon" href="/images/pokeball_teamversus.png">
+	<title>Fin del Combate</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/ganador.css">
+</head>
+
+<body th:class="${datosCombate.equipoGanador == 0 ? 'fondo-ganas' : 'fondo-pierdes' }">
+	<div class="contenido">
+		<img src="/images/logo_teamversus_v2.png" alt="Logo de Teamversus" class="logo">
+		<h1>Fin del combate <!--<span th:text="${combate.id}"></span>--></h1>
+		<p th:if="${datosCombate.equipoGanador == 0}">¡Has ganado! Enhorabuena.</p>
+		<p th:if="${datosCombate.equipoGanador == 1}">Has perdido. No te desanimes.</p>
+		<p><a href="/" class="btn btn-primary">Volver a Inicio</a></p>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

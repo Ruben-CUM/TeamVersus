@@ -4,193 +4,73 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<link rel="icon" type="image/x-icon" href="/images/pokeball_teamversus.png">
 	<title>Combate Pokemon</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-	<style>
-		body,
-		html {
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			/* Evitar el desbordamiento del contenido del body */
-		}
 
-		.combate {
-			width: 100vw;
-			/* El 100vw representa el 100% del ancho del viewport (navegador) */
-			height: 100vh;
-			/* El 100vh representa el 100% de la altura del viewport */
-			margin: 0;
-			padding: 0;
-			border: none;
-			background-image: url('/images/fondo.png');
-			/* Ruta de tu imagen de fondo */
-			background-size: cover;
-			/* Ajusta el tamaño de la imagen para cubrir completamente el div */
-			background-position: center;
-			/* Centra la imagen en el div */
-		}
-
-		#interfaz-combate {}
-
-		.combate h1 {
-			background-color: rgb(30, 12, 69, 0.7);
-			color: white;
-			padding: 20px;
-			border-radius: 20px 20px 20px 20px;
-			position: absolute;
-			top: 0%;
-			left: 50%;
-			transform: translate(-50%, -0%);
-			margin-top: 20px;
-		}
-
-		.combate h2 {
-			background-color: rgba(64, 0, 128, 0.5);
-			color: white;
-			padding: 10px;
-			border-radius: 5px 5px 5px 30px;
-		}
-
-		.pokemon-propio {
-			position: absolute;
-			top: 90%;
-			left: 20%;
-			transform: translate(-20%, -90%);
-			z-index: 1;
-		}
-
-		.pokemon-rival {
-			position: absolute;
-			top: 60%;
-			left: 60%;
-			transform: translate(-60%, -60%);
-		}
-
-		.pokemon-propio img {
-			width: 300%;
-		}
-
-		.pokemon-rival img {
-			width: 220%;
-		}
-
-		#nombre-pokemon-propio {
-			width: 250px;
-			position: absolute;
-			top: 55%;
-			left: 16%;
-			transform: translate(-16%, -55%);
-			text-align: center;
-			z-index: 2;
-		}
-
-		#nombre-pokemon-rival {
-			width: 250px;
-			position: absolute;
-			top: 40%;
-			left: 83%;
-			transform: translate(-83%, -40%);
-			text-align: center;
-		}
-
-		.pokemon-types {
-			font-weight: bold;
-		}
-
-		.type-container {
-			width: 100px;
-			display: inline-block;
-		}
-	</style>
-
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			var pokemonTypes = document.querySelectorAll('.pokemon-types');
-
-			pokemonTypes.forEach(function (element) {
-				var tipos = element.textContent.split('/');
-
-				// Limpiar el contenido existente
-				element.innerHTML = '';
-
-				tipos.forEach(function (tipo) {
-					var color = getColorByType(tipo.toLowerCase());
-
-					// Crear un nuevo elemento span para cada tipo
-					var tipoElement = document.createElement('span');
-					tipoElement.textContent = tipo;
-					tipoElement.style.backgroundColor = color;
-					tipoElement.style.borderRadius = '15px';
-					tipoElement.style.padding = '5px';
-					tipoElement.style.margin = '5px';
-					tipoElement.classList.add('type-container');
-
-					// Agregar el nuevo elemento span al contenedor
-					element.appendChild(tipoElement);
-				});
-			});
-
-			function getColorByType(tipo) {
-				switch (tipo) {
-					case 'planta':
-						return '#78C850';
-					case 'fuego':
-						return '#F08030';
-					case 'agua':
-						return '#6890F0';
-					case 'bicho':
-						return '#A8B820';
-					case 'veneno':
-						return '#A040A0';
-					case 'normal':
-						return '#A8A878';
-					case 'volador':
-						return '#A890F0';
-					case 'eléctrico':
-						return '#F8D030';
-					case 'hada':
-						return '#EE99AC';
-					case 'lucha':
-						return '#C03028';
-					case 'roca':
-						return '#B8A038';
-					case 'psíquico':
-						return '#F85888';
-					case 'acero':
-						return '#B8B8D0';
-					case 'tierra':
-						return '#E0C068';
-					case 'hielo':
-						return '#98D8D8';
-					case 'fantasma':
-						return '#705898';
-					case 'dragón':
-						return '#7038F8';
-					case 'siniestro':
-						return '#705848';
-					default:
-						return 'transparent';
-				}
-			}
-		});
-	</script>
+	<link rel="stylesheet" href="/css/combate.css">
+	<script src="/js/combate.js"></script>
 </head>
 
 <body>
 	<div class="combate">
 		<div id="interfaz-combate">
-			<h1>¡Combate Pokémon!
-				<form th:action="@{/procesarTurno/{indiceJugador}(indiceJugador=0)}" method="post">>
-						<input type="hidden" name="indiceRival" th:value="0" />
-						<button type="submit" class="btn btn-success">
-							siguiente
-						</button>
-					</form>
-			</h1>
+			<div class="informacion">
+				<p>
+					<span th:text="${combate.equipoJugador[0].nombre}"></span>
+					tipo
+					<span th:if="${combate.equipoJugador[0].tipo2 != null}"
+						class="pokemon-types tipo-${combate.equipoJugador[0].tipo1.toLowerCase()} tipo-${combate.equipoJugador[0].tipo2.toLowerCase()}"
+						th:text="${combate.equipoJugador[0].tipo1 + '/' + combate.equipoJugador[0].tipo2}"></span>
+					<span th:if="${combate.equipoJugador[0].tipo2 == null}"
+						class="pokemon-types tipo-${combate.equipoJugador[0].tipo1.toLowerCase()}"
+						th:text="${combate.equipoJugador[0].tipo1}"></span>
+					tiene una efectividad de
+					<span th:text="${datosCombate.eficaciaJugador}"></span>
+					contra
+					<span th:text="${combate.equipoRival[0].nombre}"></span>
+					tipo
+					<span th:if="${combate.equipoRival[0].tipo2 != null}"
+						class="pokemon-types tipo-${combate.equipoRival[0].tipo1.toLowerCase()} tipo-${combate.equipoRival[0].tipo2.toLowerCase()}"
+						th:text="${combate.equipoRival[0].tipo1 + '/' + combate.equipoRival[0].tipo2}"></span>
+					<span th:if="${combate.equipoRival[0].tipo2 == null}"
+						class="pokemon-types tipo-${combate.equipoRival[0].tipo1.toLowerCase()}"
+						th:text="${combate.equipoRival[0].tipo1}"></span>
+				</p>
+				<p>
+					<span th:text="${combate.equipoRival[0].nombre}"></span>
+					tipo
+					<span th:if="${combate.equipoRival[0].tipo2 != null}"
+						class="pokemon-types tipo-${combate.equipoRival[0].tipo1.toLowerCase()} tipo-${combate.equipoRival[0].tipo2.toLowerCase()}"
+						th:text="${combate.equipoRival[0].tipo1 + '/' + combate.equipoRival[0].tipo2}"></span>
+					<span th:if="${combate.equipoRival[0].tipo2 == null}"
+						class="pokemon-types tipo-${combate.equipoRival[0].tipo1.toLowerCase()}"
+						th:text="${combate.equipoRival[0].tipo1}"></span>
+					tiene una efectividad de
+					<span th:text="${datosCombate.eficaciaRival}"></span>
+					contra
+					<span th:text="${combate.equipoJugador[0].nombre}"></span>
+					tipo
+					<span th:if="${combate.equipoJugador[0].tipo2 != null}"
+						class="pokemon-types tipo-${combate.equipoJugador[0].tipo1.toLowerCase()} tipo-${combate.equipoJugador[0].tipo2.toLowerCase()}"
+						th:text="${combate.equipoJugador[0].tipo1 + '/' + combate.equipoJugador[0].tipo2}"></span>
+					<span th:if="${combate.equipoJugador[0].tipo2 == null}"
+						class="pokemon-types tipo-${combate.equipoJugador[0].tipo1.toLowerCase()}"
+						th:text="${combate.equipoJugador[0].tipo1}"></span>
+				</p>
+				<p>
+					Gana <span th:text="${datosCombate.ganador.nombre}">></span>
+				</p>
+				<form th:action="@{/procesarTurno/{indiceJugador}(indiceJugador=0)}" method="post">
+					<input type="hidden" name="indiceRival" th:value="0" />
+					<button type="submit" class="btn">
+						<img src="/images/pokeball_teamversus.png" class="pokeball"></img>
+					</button>
+				</form>
+			</div>
 			<!-- Tu Pokémon -->
 			<th:block th:if="${combate.equipoJugador != null and not #lists.isEmpty(combate.equipoJugador)}">
 				<div id="nombre-pokemon-propio">
@@ -206,7 +86,6 @@
 					<img th:src="${combate.equipoJugador[0].spriteBack}">
 				</div>
 			</th:block>
-
 			<!-- Rival Pokémon -->
 			<div class="pokemon-rival">
 				<img th:src="${combate.equipoRival[0].spriteFront}">
@@ -222,7 +101,6 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 
 </html>

@@ -22,13 +22,14 @@ public class TeamversusController {
 
 	@GetMapping("/")
 	public String index(Model model) {
+		teamversusService.eliminarEquipo();
 		model.addAttribute("combates", teamversusService.findCombates());
 		return "index";
 	}
-	
+
 	@GetMapping("/tablaTipos")
 	public String tablaTiposPage(Model model) {
-		Tabla tabla = new Tabla ();
+		Tabla tabla = new Tabla();
 		model.addAttribute("tabla", tabla);
 		return "tablaTipos";
 	}
@@ -39,17 +40,17 @@ public class TeamversusController {
 		model.addAttribute("equipo", teamversusService.findEquipo());
 		return "listaPokemon";
 	}
-	
+
 	@PostMapping("/addPokemon/{pokemonId}")
-    public String addPokemon(@PathVariable int pokemonId) {
-    	teamversusService.addPokemon(pokemonId);
-        return "redirect:/listaPokemon";
-    }
-	
+	public String addPokemon(@PathVariable int pokemonId) {
+		teamversusService.addPokemon(pokemonId);
+		return "redirect:/listaPokemon";
+	}
+
 	@PostMapping("/deletePokemon/{pokemonId}")
 	public String deletePokemon(@PathVariable int pokemonId) {
 		teamversusService.deletePokemonById(pokemonId);
 		return "redirect:/listaPokemon";
-    }
+	}
 
 }

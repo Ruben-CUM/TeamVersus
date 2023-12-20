@@ -9,22 +9,23 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Pokemon {
-	
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String nombre;
-	
+
 	private String tipo1;
-	
+
 	private String tipo2;
-	
+
 	private String spriteFront;
-	
+
 	private String spriteBack;
-	
-	public Pokemon() {}
+
+	public Pokemon() {
+	}
 
 	public Pokemon(String nombre, String tipo1, String tipo2, String spriteFront, String spriteBack) {
 		this.nombre = nombre;
@@ -106,5 +107,5 @@ public class Pokemon {
 		return "Pokemon [id=" + id + ", nombre=" + nombre + ", tipo1=" + tipo1 + ", tipo2=" + tipo2 + ", spriteFront="
 				+ spriteFront + ", spriteBack=" + spriteBack + "]";
 	}
-	
+
 }

@@ -1,0 +1,102 @@
+.container-main {
+	float: bottom;
+	border-top: 5px solid white;
+	margin-bottom: 50px;
+	padding-top: 40px;
+}
+
+.container-team {
+	float: top;
+	margin-bottom: 40px;
+}
+
+.team-cell {
+	margin-bottom: 15px;
+}
+
+body {
+	background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+	font-family: 'Candara', sans-serif;
+	color: white;
+}
+
+h2 {
+	font-size: 50px;
+	text-align: center;
+}
+
+.pokemon-name {
+	font-size: 26px;
+}
+
+.pokemon-card {
+	background-color: rgb(64, 0, 128, 0.5);
+	border-radius: 5px;
+	text-align: center;
+	padding: 15px;
+	margin: 15px;
+	height: 350px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.pokemon-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-grow: 1;
+}
+
+.pokemon-image-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 1;
+}
+
+.pokemon-image {
+	max-width: 100%;
+	max-height: 100%;
+	border-radius: 10px;
+	object-fit: contain;
+}
+
+.pokemon-types {
+	font-weight: bold;
+}
+
+.type-container {
+	width: 100px;
+	display: inline-block;
+}
+
+.row {
+	margin-right: -5px;
+	margin-left: -5px;
+}
+
+.col-md-4 {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.btn {
+	background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+	color: white;
+}
+
+.btn-combate-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 55px;
+}
+
+.btn-combate {
+	padding: 15px 30px;
+	background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+	font-family: 'Candara', sans-serif;
+	font-size: 30px;
+}

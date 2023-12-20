@@ -1,6 +1,7 @@
 package com.teamversus.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,25 +10,24 @@ import org.springframework.stereotype.Service;
 import com.teamversus.model.Combate;
 import com.teamversus.model.Pokemon;
 import com.teamversus.model.Teamversus;
-import com.teamversus.repository.CombateRepository;
 import com.teamversus.repository.TeamversusRepository;
 
 @Service
 public class TeamversusServiceImpl implements TeamversusService {
 
 	private final TeamversusRepository teamversusRepository;
-	private final CombateRepository combateRepository;
 
 	@Autowired
-	public TeamversusServiceImpl(TeamversusRepository teamversusRepository, CombateRepository combateRepository) {
+	public TeamversusServiceImpl(TeamversusRepository teamversusRepository) {
 		this.teamversusRepository = teamversusRepository;
-		this.combateRepository = combateRepository;
 	}
 
-//	@Override
-//	public void createTeamversus(Teamversus teamversus) {
-//		teamversus = teamversusRepository.save(teamversus);
-//	}
+	@Override
+	public void eliminarEquipo() {
+		Teamversus teamversus = teamversusRepository.findById(1);
+		teamversus.setEquipo(new ArrayList<Pokemon>(6));
+		teamversus = teamversusRepository.save(teamversus);
+	}
 
 	@Override
 	public List<Pokemon> findListaPokemon() {
@@ -38,12 +38,12 @@ public class TeamversusServiceImpl implements TeamversusService {
 	public Pokemon findPokemonById(int pokemonId) {
 		return teamversusRepository.findPokemonById(pokemonId);
 	}
-	
+
 	@Override
 	public List<Pokemon> findEquipo() {
 		return teamversusRepository.findEquipo();
 	}
-	
+
 	@Override
 	public List<Combate> findCombates() {
 		return teamversusRepository.findCombates();
@@ -70,17 +70,4 @@ public class TeamversusServiceImpl implements TeamversusService {
 		teamversus.setEquipo(equipo);
 		teamversus = teamversusRepository.save(teamversus);
 	}
-
-	@Override
-	public void addEquipoJugador(ArrayList<Pokemon> equipoJugador) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addEquipoRival(ArrayList<Pokemon> equipoRival) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

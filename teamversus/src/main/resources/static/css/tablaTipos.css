@@ -1,0 +1,67 @@
+body {
+	font-family: 'Candara', sans-serif;
+	color: white;
+	margin: 0;
+	padding: 0;
+	background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+}
+
+h2 {
+	font-size: 50px;
+	text-align: center;
+}
+
+table {
+	border-collapse: collapse;
+	margin-bottom: 40px;
+	width: 100%;
+}
+
+table,
+th,
+td {
+	border: 1px solid white;
+}
+
+th,
+td {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	margin: 0;
+}
+
+.pokemon-types {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.type-container {
+	width: 70px;
+	display: inline-block;
+}
+
+.number-container {
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: inline-block;
+}
+
+.btn-combate-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 55px;
+}
+
+.btn-combate {
+	padding: 15px 30px;
+	background: linear-gradient(to right, rgb(36, 52, 200), #9b59b6);
+	font-family: 'Candara', sans-serif;
+	font-size: 30px;
+}
